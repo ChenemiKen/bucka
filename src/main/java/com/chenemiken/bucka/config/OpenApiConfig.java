@@ -13,6 +13,5 @@ public class OpenApiConfig {
                 .info(new Info().title("Bucka API")
                 .description("Documentation for Bucka API")
                 .version("v0.1"));
-
     }
 }
