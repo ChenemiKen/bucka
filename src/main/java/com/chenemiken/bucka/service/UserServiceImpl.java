@@ -4,13 +4,13 @@ import com.chenemiken.bucka.entity.User;
 import com.chenemiken.bucka.repository.UserRepository;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Configuration;
-//import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Service;
 
-@Configuration
+@Service
 public class UserServiceImpl implements UserService{
-
-//  private BCryptPasswordEncoder bCryptPasswordEncoder;
+  @Autowired
+  private BCryptPasswordEncoder bCryptPasswordEncoder;
   @Autowired
   UserRepository userRepository;
 
@@ -25,7 +25,7 @@ public class UserServiceImpl implements UserService{
 
   @Override
   public User saveUser(User user) {
-//    user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+    user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
     return userRepository.save(user);
   }
 
