@@ -1,6 +1,5 @@
 package com.chenemiken.bucka.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -8,6 +7,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
@@ -26,17 +26,20 @@ public class User {
   private Long id;
 
   @Column
-  @NonNull()
+  @NotNull(message = "Email is required")
   @NotBlank(message = "Email can not be blank")
+  @NonNull
   private String email;
 
   @Column
-  @NonNull
+  @NotNull(message = "Username is required")
   @NotBlank(message = "Username can not be blank")
+  @NonNull
   private String username;
 
   @Column
-  @NonNull
+  @NotNull(message = "Password is required")
   @NotBlank(message = "Password can not be blank")
+  @NonNull
   private String password;
 }
