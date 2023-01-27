@@ -17,7 +17,7 @@ public class UserServiceImpl implements UserService{
   @Override
   public User getUser(Long id){
     try{
-      return unwrapUser(userRepository.findById(id), id);
+      return unwrapUser(userRepository.findById(id));
     }catch (Exception e){
       return null;
     }
@@ -29,7 +29,16 @@ public class UserServiceImpl implements UserService{
     return userRepository.save(user);
   }
 
-  static User unwrapUser(Optional<User> entity, Long id) throws Exception {
+  @Override
+  public User getUser(String username){
+    try{
+      return unwrapUser(userRepository.getUserByUsername(username));
+    }catch(Exception e){
+      return null;
+    }
+  }
+
+  static User unwrapUser(Optional<User> entity) throws Exception {
     if(entity.isPresent()) return entity.get();
     else throw new Exception();
   }
