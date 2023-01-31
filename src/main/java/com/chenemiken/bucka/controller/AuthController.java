@@ -48,11 +48,6 @@ public class AuthController {
     return new ResponseEntity<>(userMap, HttpStatus.CREATED);
   }
 
-  @PostMapping(value = "/login", produces = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<Object> login(@RequestBody User user){
-    return new ResponseEntity<>(HttpStatus.GATEWAY_TIMEOUT);
-  }
-
   @GetMapping(value = "/users", produces = MediaType.APPLICATION_JSON_VALUE)
   @Operation(summary = "Fetch users", description = "Returns a List of all active users")
   @ApiResponse(responseCode = "200", description = "Successful retrieval of users", content = @Content(array = @ArraySchema(schema = @Schema(implementation = User.class))))

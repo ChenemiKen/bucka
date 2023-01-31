@@ -1,8 +1,8 @@
 package com.chenemiken.bucka;
 
 import com.chenemiken.bucka.exception.DuplicateUserException;
+import com.chenemiken.bucka.exception.EntityNotFoundException;
 import com.chenemiken.bucka.exception.ErrorResponse;
-import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -27,7 +27,7 @@ public class ApplicationExceptionHandler extends ResponseEntityExceptionHandler 
     return new ResponseEntity<>(new ErrorResponse(errors), HttpStatus.BAD_REQUEST);
   }
 
-  @ExceptionHandler({DataIntegrityViolationException.class, DuplicateUserException.class})
+  @ExceptionHandler({DataIntegrityViolationException.class, DuplicateUserException.class, EntityNotFoundException.class})
   public ResponseEntity<Object> handleSQLIntegrityViolationException(RuntimeException ex){
     List<String> errors = new ArrayList<>();
     errors.add(ex.getMessage());

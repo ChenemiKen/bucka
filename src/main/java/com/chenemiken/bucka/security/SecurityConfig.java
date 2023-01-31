@@ -1,6 +1,7 @@
 package com.chenemiken.bucka.security;
 
 import com.chenemiken.bucka.security.filter.AuthenticationFilter;
+import com.chenemiken.bucka.security.filter.ExceptionHandlerFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -19,6 +20,7 @@ public class SecurityConfig {
 
     http
         .csrf().disable()
+        .addFilterBefore(new ExceptionHandlerFilter(), AuthenticationFilter.class)
         .addFilter(authenticationFilter);
 
     return http.build();
