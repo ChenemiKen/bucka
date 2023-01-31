@@ -25,13 +25,13 @@ public class User {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  @Column
+  @Column(unique = true)
   @NotNull(message = "Email is required")
   @NotBlank(message = "Email can not be blank")
   @NonNull
   private String email;
 
-  @Column
+  @Column(unique = true)
   @NotNull(message = "Username is required")
   @NotBlank(message = "Username can not be blank")
   @NonNull
