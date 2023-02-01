@@ -1,6 +1,8 @@
 package com.chenemiken.bucka.service;
 
 import com.chenemiken.bucka.entity.User;
+import com.chenemiken.bucka.exception.DuplicateUserException;
+import com.chenemiken.bucka.exception.EntityNotFoundException;
 import com.chenemiken.bucka.repository.UserRepository;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +19,7 @@ public class UserServiceImpl implements UserService{
   @Override
   public User getUser(Long id){
     try{
-      return unwrapUser(userRepository.findById(id), id);
+      return unwrapUser(userRepository.findById(id));
     }catch (Exception e){
       return null;
     }
@@ -25,12 +27,35 @@ public class UserServiceImpl implements UserService{
 
   @Override
   public User saveUser(User user) {
-    user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-    return userRepository.save(user);
+    if(!checkUsernameExists(user.getUsername())) {
+      if(!checkEmailExists(user.getEmail())){
+        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+        return userRepository.save(user);
+      }else{
+        throw new DuplicateUserException("Email", user.getEmail());
+      }
+    }else{
+      throw new DuplicateUserException("Username", user.getUsername());
+    }
   }
 
-  static User unwrapUser(Optional<User> entity, Long id) throws Exception {
+  @Override
+  public User getUser(String username){
+      return unwrapUser(userRepository.getUserByUsername(username));
+  }
+
+  static User unwrapUser(Optional<User> entity){
     if(entity.isPresent()) return entity.get();
-    else throw new Exception();
+    else throw new EntityNotFoundException(User.class);
+  }
+
+  private boolean checkUsernameExists(String username){
+    Optional<User> user = userRepository.getUserByUsername(username);
+    return user.isPresent();
+  }
+
+  private boolean checkEmailExists(String email){
+    Optional<User> user = userRepository.getUserByEmail(email);
+    return user.isPresent();
   }
 }
